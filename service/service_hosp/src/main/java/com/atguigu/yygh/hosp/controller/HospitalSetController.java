@@ -21,6 +21,7 @@ import java.util.Random;
 @Api(tags = "医院设置管理")
 @RestController
 @RequestMapping("/admin/hosp/hospitalSet")
+@CrossOrigin
 public class HospitalSetController {
 
     //注入service
@@ -53,7 +54,7 @@ public class HospitalSetController {
     }
 
     //3 条件查询带分页
-    @PostMapping("/findPage/{current}/{limit}")
+    @PostMapping("/findPageHospSet/{current}/{limit}")
     public Result findPageHospSet(
             @PathVariable long current,
             @PathVariable long limit,
@@ -77,7 +78,6 @@ public class HospitalSetController {
 
         //返回结果
         return Result.ok(pageHospitalSet);
-
 
     }
 
