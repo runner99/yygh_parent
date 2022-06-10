@@ -5,17 +5,19 @@ import com.atguigu.yygh.common.result.Result;
 import com.atguigu.yygh.model.cmn.Dict;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(value = "数据字典接口")
 @RestController
 @RequestMapping("/admin/cmn/dict")
-@CrossOrigin
+//@CrossOrigin
 public class DictController {
 
     @Autowired
@@ -34,6 +36,14 @@ public class DictController {
         return Result.ok();
 
     }
+    //根据dictCode获取下级节点
+    @ApiOperation(value = "根据dictCode获取下级节点")
+    @GetMapping(value = "/findByDictCode/{dictCode}")
+    public Result findByDictCode(@PathVariable String dictCode) {
+        List<Dict> list = dictService.findByDictCode(dictCode);
+        return Result.ok(list);
+    }
+
 
     //根据数据id查询子数据列表
     @ApiOperation(value = "根据数据id查询子数据列表")
@@ -42,4 +52,22 @@ public class DictController {
         List<Dict> list = dictService.findChildData(id);
         return Result.ok(list);
     }
+
+    //根据dictcode和value查询
+    @GetMapping("/getName/{dictCode}/{value}")
+    public String getName(@PathVariable String dictCode,
+                          @PathVariable String value){
+
+        String dictName = dictService.getDictName(dictCode,value);
+        return dictName;
+    }
+
+    //根据value查询
+    @GetMapping("/getName/{value}")
+    public String getName(@PathVariable String value){
+
+        String dictName = dictService.getDictName("",value);
+        return dictName;
+    }
+
 }
